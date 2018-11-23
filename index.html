@@ -1,0 +1,169 @@
+<html>
+<head>
+
+<!-- ugly example for ValuePickerTable -->
+
+   <script
+     src="https://code.jquery.com/jquery-3.2.1.js"
+     integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+     crossorigin="anonymous"></script>
+
+   <script type="text/javascript" src="ValuePickerTable.js"></script>
+  </head>
+
+  <style>
+  html {
+      width:100vw;
+      margin:0px 0px 0px 0px;
+      padding: 0px 0px 0px 0px;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body {
+      width:100%;
+      margin:0px 0px 0px 0px;
+      padding: 0px 0px 0px 0px;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+   .header {
+      width:80%;
+      margin:auto;
+      text-align: center;
+      border:solid 3px;
+      padding:10px;
+   }
+
+   .selectPrompt {
+      border:solid 1px black;
+      padding:5px;
+   }
+
+   .pickCell {
+      background-color: #DDDDDD;
+      padding:3px;
+      cursor:pointer;
+      text-align: center;
+   }
+
+   .pickCell:hover {
+      background-color: #EEEEEE;
+   }
+  </style>
+
+<body>
+
+
+<script type='text/javascript'>
+
+$(document).ready( function()
+{
+   pickerFactory = new ValuePickerTable.ValuePickerTable();
+});
+
+// -----------------------------------------------------------------------------
+function createWeekdayPicker(click_event, target_element_id)
+{
+	weekdays_picker_config_object = [];
+	weekdays_picker_config_object['columns'] = 2;
+	weekdays_picker_config_object['values_array'] = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+	weekdays_picker_config_object['callback_function'] = function(val) { $(`#${target_element_id}`).text(val); };
+	weekdays_picker_config_object['parent_element'] = click_event.currentTarget;
+
+	weekdays_picker_config_object['body_cover_background'] = "rgba(255,0,0,0.5)";
+
+	pickerFactory.create(weekdays_picker_config_object);
+}
+
+// -----------------------------------------------------------------------------
+function createNumbersPicker(click_event, target_element_id)
+{
+   var numbers_config_object = {};
+   numbers_config_object['columns'] = 5;
+   numbers_config_object['values_array'] = [];
+   for (var i = 1; i <= 30; i += 1)
+   {
+      numbers_config_object['values_array'].push(i);
+   }
+
+   numbers_config_object['callback_function'] = function(val) { $(`#${target_element_id}`).text(val); };
+   numbers_config_object['parent_element'] = click_event.currentTarget;
+
+   // optional (style the containing table)
+   numbers_config_object['div_created_callback'] = function(div_element)
+   {
+      $div = $(div_element);
+
+      $div.css( {'padding':'1px', 'border-style':'solid',
+            'background-color':'#EEEEEE', 'border-radius':'3px'});
+   };
+
+   // optional (style all the values)
+   numbers_config_object["value_created_callback"] = function(value_element)
+   {
+      $element = $(value_element);
+      /*
+      $element.css(
+      {
+         "background-color":"#DDDDDD",
+         "padding":"5px",
+         "border-radius":"2px",
+      } );
+      */
+      $element.addClass('pickCell');
+   }
+
+   pickerFactory.create(numbers_config_object);
+}
+</script>
+
+<div class="header">
+   Value Picker Table
+</div>
+
+<br>
+
+<span>We encountered </span>
+<span    id='days_1_id'
+         style="position:relative;"
+         class="selectPrompt"
+         onclick="createNumbersPicker(event, 'days_1_id')">
+   ?
+</span>
+<span> flurbs and </span>
+<span id='days_2_id'
+      style="position:relative;"
+      class="selectPrompt"
+      onclick="createNumbersPicker(event, 'days_2_id')">
+   ?
+</span>
+<span> fleems in our travels.</span>
+<br>
+<br>
+<br>
+<span>We left on a </span>
+<span id="weekday_id"
+      style="position:relative;"
+      class="selectPrompt"
+      onclick="createWeekdayPicker(event, 'weekday_id')">
+   ?
+</span>
+<span>.</span>
+<br>
+<br>
+<br>
+<span>There were easily like, </span>
+<span id="num_test_id"
+      style="position:relative;"
+      class="selectPrompt"
+      onclick="createNumbersPicker(event, 'num_test_id')">
+   ?
+</span>
+things we forgot.
+<span>.</span>
+
+</body>
+</html>
+
+<!-- onclick="createWeekdayPicker(event, 'weekday_id')"> -->
